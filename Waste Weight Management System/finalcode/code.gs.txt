@@ -1,0 +1,23 @@
+function doPost(e) {
+
+  if (!e || !e.postData) {
+    return ContentService.createTextOutput("No POST data");
+  }
+
+  var data = JSON.parse(e.postData.contents);
+
+  var sheetName = data.type;
+  var weight = data.weight;
+
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(sheetName);
+
+  var now = new Date();
+  sheet.appendRow([
+    Utilities.formatDate(now, "Asia/Kolkata", "yyyy-MM-dd"),
+    Utilities.formatDate(now, "Asia/Kolkata", "HH:mm:ss"),
+    weight
+  ]);
+
+  return ContentService.createTextOutput("Success");
+}
